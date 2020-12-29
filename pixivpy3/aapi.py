@@ -137,6 +137,21 @@ class AppPixivAPI(BasePixivAPI):
         r = self.no_auth_requests_call('GET', url, params=params, req_auth=req_auth)
         return self.parse_result(r)
 
+    def user_bookmarks_novel(self, user_id, restrict='public', filter='for_ios', max_bookmark_id=None, tag=None,
+                              req_auth=True):
+        url = '%s/v1/user/bookmarks/novel' % self.hosts
+        params = {
+            'user_id': user_id,
+            'restrict': restrict,
+            'filter': filter,
+        }
+        if (max_bookmark_id):
+            params['max_bookmark_id'] = max_bookmark_id
+        if (tag):
+            params['tag'] = tag
+        r = self.no_auth_requests_call('GET', url, params=params, req_auth=req_auth)
+        return self.parse_result(r)
+
     # 关注用户的新作
     # restrict: [public, private]
     def illust_follow(self, restrict='public', offset=None, req_auth=True):
@@ -154,6 +169,14 @@ class AppPixivAPI(BasePixivAPI):
         url = '%s/v1/illust/detail' % self.hosts
         params = {
             'illust_id': illust_id,
+        }
+        r = self.no_auth_requests_call('GET', url, params=params, req_auth=req_auth)
+        return self.parse_result(r)
+
+    def novel_text(self, novel_id, req_auth=True):
+        url = '%s/v1/novel/text' % self.hosts
+        params = {
+            'novel_id': novel_id,
         }
         r = self.no_auth_requests_call('GET', url, params=params, req_auth=req_auth)
         return self.parse_result(r)
